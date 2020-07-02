@@ -3,32 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vivek.packetprocessor.communicate;
+package com.geekvivek.serializer.packetprocessor.communicate;
 
-import com.vivek.packetprocessor.packet.DataPacket;
-import com.vivek.packetprocessor.packet.exception.InvalidPacketException;
-import com.vivek.packetprocessor.packet.util.Constants;
-import com.vivek.packetprocessor.packet.util.DataLibrary;
-import com.vivek.packetprocessor.packet.util.Messages;
+import com.geekvivek.serializer.packetprocessor.packet.DataPacket;
+import com.geekvivek.serializer.packetprocessor.packet.exception.InvalidPacketException;
+import com.geekvivek.serializer.packetprocessor.packet.util.Constants;
+import com.geekvivek.serializer.packetprocessor.packet.util.DataLibrary;
+import com.geekvivek.serializer.packetprocessor.packet.util.Messages;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Vivek
  */
+@Slf4j
 public class TCPProcessor {
-
-    private static final Logger logger = Logger.getLogger(TCPProcessor.class.getName());
 
     public static DataPacket receive(InputStream in) throws IOException, InvalidPacketException
     {
-
         DataPacket data = new DataPacket();
         byte[] buffer = new byte[Constants.MAX_DATA_SIZE];
         int tmpAttr = 0;
@@ -40,15 +38,15 @@ public class TCPProcessor {
         /**
          * ***Reading Message Type and Message Length from Stream******
          */
-        logger.log(Level.FINE, "Reading Message Type and Message Length...");
+        log.debug( "Reading Message Type and Message Length...");
         readNByte(in, buffer, 0, 4, "Error in reading Message Type and Length.");
-        logger.log(Level.FINE, "Packet Read Length = 4");
+        log.debug( "Packet Read Length = 4");
 
         data.setMessageType(buffer, 0);
         int length = DataLibrary.twoByteToInt(buffer, 2);
 
-        logger.log(Level.INFO, "Message Type : {0}", data.getMessageType());
-        logger.log(Level.INFO, "Message Length : {0}", length);
+        log.info( "Message Type : {}", data.getMessageType());
+        log.info( "Message Length : {}", length);
         /**
          * ***********************************************************
          */
@@ -57,20 +55,20 @@ public class TCPProcessor {
          * *******Reading Payloads***********************************
          */
         length -= 4;      //Due to Message Header
-        logger.log(Level.FINE, "Reading Attributes");
+        log.debug( "Reading Attributes");
 
         while (length > 0)
         {
             /**
              * ***** Reading Attribute Type and Length***************
              */
-            logger.log(Level.FINE, "Reading Next Attrbite :");
+            log.debug( "Reading Next Attrbite :");
             readNByte(in, buffer, 0, 4, "Error in reading Attribute Type and Length.");
-            logger.log(Level.FINE, "Read Size = {0}", readPacket);
+            log.debug( "Read Size = {}", readPacket);
             tmpAttr = DataLibrary.twoByteToInt(buffer, 0);
             tmpLen = DataLibrary.twoByteToInt(buffer, 2);
-            logger.log(Level.FINE, "Attribute Code : {0}", tmpAttr);
-            logger.log(Level.FINE, "Attribute Length : {0}", tmpLen);
+            log.debug( "Attribute Code : {}", tmpAttr);
+            log.debug( "Attribute Length : {}", tmpLen);
             /**
              * *****************************************************
              */
@@ -91,7 +89,7 @@ public class TCPProcessor {
                     t = buffer;
                 }
                 readNByte(in, t, 0, tmpLen, "Error in reading Attribute value for Attribute Type=" + tmpAttr);
-                logger.log(Level.FINE, "Attribute Value Received Length = {0}", totalRead);
+                log.debug( "Attribute Value Received Length = {}", totalRead);
                 data.setByteArray(tmpAttr, t, tmpLen);
             }
             else
@@ -102,7 +100,7 @@ public class TCPProcessor {
              * ****************************************************
              */
             length -= tmpLen;
-            logger.log(Level.FINE, "Remaining Packet Length = {0}", length);
+            log.debug( "Remaining Packet Length = {}", length);
         }
         return data;
     }
@@ -112,7 +110,7 @@ public class TCPProcessor {
         System.out.println(data);
         if (data.getMessageType() == Messages._ERROR)
         {
-            logger.log(Level.INFO, "Error Code : {0}", data.getInt(Messages.ERROR_CODE));
+            log.info( "Error Code : {}", data.getInt(Messages.ERROR_CODE));
         }
         byte[] tmp = new byte[2];
         getBytes(tmp, data.getMessageType());

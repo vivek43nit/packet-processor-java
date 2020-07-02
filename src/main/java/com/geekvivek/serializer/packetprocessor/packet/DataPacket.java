@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vivek.packetprocessor.packet;
+package com.geekvivek.serializer.packetprocessor.packet;
 
-import com.vivek.packetprocessor.packet.util.Constants;
+import com.geekvivek.serializer.packetprocessor.packet.util.Constants;
 import java.util.ArrayList;
-import com.vivek.packetprocessor.packet.util.SetterInterface;
-import com.vivek.packetprocessor.packet.util.GetterInterface;
-import com.vivek.packetprocessor.packet.util.DataLibrary;
+import com.geekvivek.serializer.packetprocessor.packet.util.SetterInterface;
+import com.geekvivek.serializer.packetprocessor.packet.util.GetterInterface;
+import com.geekvivek.serializer.packetprocessor.packet.util.DataLibrary;
 import java.util.HashMap;
 import java.util.Iterator;
 

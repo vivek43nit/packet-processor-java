@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vivek.packetprocessor.packet.exception;
+package com.geekvivek.serializer.packetprocessor.packet.exception;
 
 /**
  * This Exception is thrown by TCPProcessor while sending and receiving

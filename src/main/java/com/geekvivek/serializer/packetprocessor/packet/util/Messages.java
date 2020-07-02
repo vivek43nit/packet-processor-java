@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vivek.packetprocessor.packet.util;
+package com.geekvivek.serializer.packetprocessor.packet.util;
 
 /**
  *
  * @author Vivek
  */
 public interface Messages {
-    public static final int _ERROR = 0x1000;                    //4096
-    public static final int ERROR_CODE = 0x0000;
+    int _ERROR = 0x1000;                    //4096
+    int ERROR_CODE = 0x0000;
 }

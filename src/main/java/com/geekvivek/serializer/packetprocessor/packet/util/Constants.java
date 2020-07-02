@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vivek.packetprocessor.packet.util;
+package com.geekvivek.serializer.packetprocessor.packet.util;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class holds some necessary constants to be used in Projects
@@ -22,7 +23,7 @@ public class Constants {
      * to byte array or from byte array to string in java to make conversion 
      * without losing any data.
      */
-    public static final Charset charset= Charset.forName("ISO-8859-1");
+    public static final Charset charset= StandardCharsets.ISO_8859_1;
 
     /**
      * Maximum buffer size to be sent to server or maximum buffer size that 
